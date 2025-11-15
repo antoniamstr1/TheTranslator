@@ -9,14 +9,14 @@ public class WordModel : BaseModel
 {
     [PrimaryKey("id")]
     public int Id { get; set; }
-    [Column("UserCode")]
+    [Column("user_code")]
     public string UserCode { get; set; } = string.Empty;
-    [Column("TextId")]
+    [Column("text_id")]
     public int TextId { get; set; }
-    [Column("Word")]
+    [Column("word")]
     public string Word { get; set; } = string.Empty;
     [Column("is_pinned")]
     public bool IsPinned { get; set; }
-    [Column("Level")]
+    [Column("level")]
     public WordLevel Level { get; set; }
 }

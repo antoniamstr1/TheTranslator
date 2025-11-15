@@ -8,14 +8,14 @@ public class TextModel : BaseModel
 {
     [PrimaryKey("id")]
     public int Id { get; set; }
-    [Column("UserId")]
+    [Column("user_id")]
     public int UserId { get; set; }
-    [Column("Content")]
+    [Column("content")]
     public string Content { get; set; } = string.Empty;
-    [Column("LanguangeFrom")]
+    [Column("languange_from")]
     public string LanguangeFrom { get; set; } = string.Empty;
-    [Column("LanguageTo")]
+    [Column("language_to")]
     public string LanguageTo { get; set; } = string.Empty;
-    [Column("Title")]
+    [Column("title")]
     public string Title { get; set; } = string.Empty;
 }
