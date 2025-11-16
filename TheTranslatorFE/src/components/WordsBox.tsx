@@ -13,52 +13,23 @@ export default function WordsBox({ words }: WordsProps) {
     const [detailsData, setDetailsData] = useState<(any | null)[]>(
         Array(words.length).fill(null)
     );
-    const [error, setError] = useState<(string | null)[]>(Array(words.length).fill(null));
-
-    const [loading, setLoading] = useState(() =>
-        Array(words.length).fill(false)
-    );
     const API_BASE_URL = "https://thetranslator.onrender.com/word-analysis/it/";
 
     const handleClick = async (i: number) => {
+
         setOpenButtons(prev => {
             const newArr = [...prev];
             newArr[i] = !newArr[i];
             return newArr;
         });
-
         if (!detailsData[i]) {
-            setLoading(prev => {
+            const response = await axios.get(`${API_BASE_URL}${words[i]}`);
+            /* ŠTO AKO VRATI 400 -> ne može riješiti infinitiv */
+            setDetailsData(prev => {
                 const newArr = [...prev];
-                newArr[i] = true;
+                newArr[i] = response.data;
                 return newArr;
             });
-            setError(prev => {
-                const newArr = [...prev];
-                newArr[i] = null;
-                return newArr;
-            });
-
-            try {
-                const response = await axios.get(`${API_BASE_URL}${words[i]}`);
-                setDetailsData(prev => {
-                    const newArr = [...prev];
-                    newArr[i] = response.data;
-                    return newArr;
-                });
-            } catch (err: any) {
-                setError(prev => {
-                    const newArr = [...prev];
-                    newArr[i] = err.message || "Error fetching data";
-                    return newArr;
-                });
-            } finally {
-                setLoading(prev => {
-                    const newArr = [...prev];
-                    newArr[i] = false;
-                    return newArr;
-                });
-            }
         }
     };
 
@@ -78,27 +49,38 @@ export default function WordsBox({ words }: WordsProps) {
                                     </button>
 
                                     <div className="details-box">
-                                        {detailsData[index]?.type}
-                                        {detailsData[index]?.definitions}
+                                        <div style={{ color: "gray" }}>{detailsData[index]?.analysis.type}</div>
+                                        <div>
+                                            {detailsData[index]?.analysis.definitions?.join(", ")}
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div className="conjugations-box">
-                                    {/* Example rendering of conjugations if available */}
-                                    {detailsData[index]?.conjugations?.map((tense: any, tIdx: number) => (
-                                        <div key={tIdx} className="conjugations-container">
-                                            <div className="tense">{tense.tenseName}</div>
-                                            <div className="verbs-container">
-                                                {tense.forms.map((form: any, fIdx: number) => (
-                                                    <div key={fIdx} className="verb-row">
-                                                        <div className="verb-face">{form.person}</div>
-                                                        <div className="verb-conjugated">{form.form}</div>
-                                                    </div>
-                                                ))}
+
+                                {detailsData[index]?.conjugation && (
+                                    <div className="conjugations-box">
+                                        {Object.entries(detailsData[index].conjugation).map(([tenseName, persons], tIdx) => (
+                                            <div key={tIdx} className="conjugations-container">
+                                                <div className="tense">{tenseName}</div>
+                                                <div className="verbs-container">
+                                                    {Object.entries(persons).map(([person, form], fIdx) => (
+                                                        <div key={fIdx} className="verb-row">
+                                                            <div className="verb-face">{person}</div>
+                                                            <div
+                                                                className="verb-conjugated"
+                                                                style={{ color: form.type !== "regular" ? "#c43838fe" : "black" }}
+                                                            >
+                                                                {form.value}
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </div>
                                             </div>
-                                        </div>
-                                    ))}
-                                </div>
+                                        ))}
+                                    </div>
+                                )}
+
+
                             </div>
 
                         </div>

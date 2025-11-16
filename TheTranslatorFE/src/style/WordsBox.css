@@ -1,5 +1,6 @@
 .words-container {
-  flex: 1; /* take available space */
+  /* flex: 1;  */
+  width: calc(100vw - 35rem);
   padding: 1rem;
   box-sizing: border-box;
 }
@@ -11,7 +12,7 @@
   gap: 1rem;
   align-items: flex-start;
   align-content: flex-start;
-
+  width:100%;
   border: 1px solid #ffffff;
   padding: 1rem;
   /* box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); */
@@ -41,13 +42,50 @@
   flex-direction: row;
   align-items: center;
   gap: 1rem;
+  width: 100%;        
+  overflow-x: hidden;
 }
 
 .details-box {
   flex: 1;
+  display: flex;  
+  flex-direction: row;     
+  flex-wrap: wrap;     
+  gap: 0.6rem; 
 }
 .language-mark {
   margin: 0;
   margin-left: 0.5rem;
   margin-right: 0.5rem;
+}
+
+
+/* conjugations */
+.conjugations-box{
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  overflow-x: scroll;
+  width: calc(100vw - 40rem);
+  
+}
+
+.conjugations-container{
+  width: 10rem;
+  flex-shrink: 0;
+  padding-bottom: 0.5rem;
+
+
+}
+.verb-row{
+    display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+
+.tense{
+  padding: 0.3rem;
+  border-radius: 8px;
+  background-color: #f1ecec6d;
+  width: fit-content;
 }

@@ -17,7 +17,7 @@ export default function TextInput({ onTextClick }: TextProps) {
     };
 
     const handleButtonClick = () => {
-        const words = Array.from(new Set(text.split(/\s+/).filter(Boolean)));
+        const words = Array.from(new Set(text.split(/\s+/).filter(Boolean).map(word => word.toLowerCase())));
         onTextClick(words);
     };
 
