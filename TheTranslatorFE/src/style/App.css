@@ -1,0 +1,9 @@
+.translator-root{
+  width: 100%;
+}
+
+.big-container{
+  display: flex;
+  flex-direction: row;
+  height: calc(100vh - 8rem);
+}

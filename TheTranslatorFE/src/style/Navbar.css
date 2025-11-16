@@ -1,0 +1,10 @@
+.navbar{
+    width: 100%;
+    box-sizing: border-box;
+    /* border-bottom: solid 1px rgb(228, 70, 93); */
+}
+.navbar-element{
+    margin: 0.7rem;
+    margin-left:2rem;
+    font-size: x-large;
+}
