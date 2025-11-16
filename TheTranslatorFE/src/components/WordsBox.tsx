@@ -5,15 +5,16 @@ import axios from "axios";
 
 interface WordsProps {
     words: string[];
+    language: string;
 }
-export default function WordsBox({ words }: WordsProps) {
+export default function WordsBox({ words, language }: WordsProps) {
 
     const [openButtons, setOpenButtons] = useState(() => Array(words.length).fill(false));
 
     const [detailsData, setDetailsData] = useState<(any | null)[]>(
         Array(words.length).fill(null)
     );
-    const API_BASE_URL = "https://thetranslator.onrender.com/word-analysis/it/";
+    const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/${language}/`;
 
     const handleClick = async (i: number) => {
 

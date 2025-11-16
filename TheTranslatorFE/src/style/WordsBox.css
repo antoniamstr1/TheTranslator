@@ -67,7 +67,7 @@
   gap: 1rem;
   overflow-x: scroll;
   width: calc(100vw - 40rem);
-  
+  margin:0.5rem;
 }
 
 .conjugations-container{

@@ -8,6 +8,8 @@
 }
 
 .translator-textarea {
+  font-family: 'Ariel'; 
+  font-size: medium;
   resize: none;
   height: 100%;
   width: 26rem;
@@ -23,7 +25,7 @@
 .translator-textarea:focus {
   outline: none;
   background-color: #ee4b5905;
-  border-color: #ee4b58;
+  border-color: #bf3e487d;
   border-width: 1px;
 }
 

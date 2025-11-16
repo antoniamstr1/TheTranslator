@@ -7,9 +7,11 @@ import Button from '@mui/material/ToggleButton';
 
 interface TextProps {
     onTextClick: (words: string[]) => void;
+    setLanguage: (language: string) => void;
+    language: string;
 }
 
-export default function TextInput({ onTextClick }: TextProps) {
+export default function TextInput({ onTextClick, setLanguage, language}: TextProps) {
     const [text, setText] = useState("");
 
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -21,7 +23,7 @@ export default function TextInput({ onTextClick }: TextProps) {
         onTextClick(words);
     };
 
-    const [language, setLanguage] = useState<string | null>('it');
+    
 
     const handleLanguage = (_event: MouseEvent<HTMLElement>, newLanguage: string | null) => {
         if (newLanguage !== null) {
@@ -33,10 +35,10 @@ export default function TextInput({ onTextClick }: TextProps) {
     return (
         <div className="textInput" >
             <ToggleButtonGroup
-                value={language}
                 exclusive
                 onChange={handleLanguage}
                 aria-label="text alignment"
+                value={language}
             >
                 <ToggleButton value="it" aria-label="it">
                     <p className="language-mark">it</p>
