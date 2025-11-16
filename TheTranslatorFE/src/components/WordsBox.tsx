@@ -78,7 +78,8 @@ export default function WordsBox({ words }: WordsProps) {
                                     </button>
 
                                     <div className="details-box">
-                                        DETS
+                                        {detailsData[index]?.type}
+                                        {detailsData[index]?.definitions}
                                     </div>
                                 </div>
 
