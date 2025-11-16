@@ -9,9 +9,9 @@ namespace TheTranslator.Controllers;
 [Route("word")]
 public class WordController : ControllerBase
 {
-    private readonly WordService _service;
+    private readonly MarkedWordService _service;
 
-    public WordController(WordService service)
+    public WordController(MarkedWordService service)
     {
         _service = service;
     }
@@ -25,14 +25,14 @@ public class WordController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateWord([FromBody] WordModel req)
+    public async Task<IActionResult> CreateWord([FromBody] MarkedWordModel req)
     {
         var id = await _service.CreateWord(req);
         return Ok(id);
     }
 
     [HttpPut("{wordId}")]
-    public async Task<IActionResult> UpdateWord(int wordId, [FromBody] WordModel req)
+    public async Task<IActionResult> UpdateWord(int wordId, [FromBody] MarkedWordModel req)
     {
         var id = await _service.UpdateWord(wordId, req.IsPinned, req.Level);
         if (id is null) return NotFound();

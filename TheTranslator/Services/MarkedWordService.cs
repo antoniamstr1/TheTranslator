@@ -6,23 +6,23 @@ using TheTranslator.Enums;
 namespace TheTranslator.Services;
 
 
-public class WordService
+public class MarkedWordService
 {
     private readonly Client _client;
 
-    public WordService(Client client)
+    public MarkedWordService(Client client)
     {
         _client = client;
     }
 
-    public async Task<IEnumerable<WordResponse>> GetWordsForText(int textId)
+    public async Task<IEnumerable<MarkedWordResponse>> GetWordsForText(int textId)
     {
         var result = await _client
-            .From<WordModel>()
+            .From<MarkedWordModel>()
             .Where(w => w.TextId == textId)
             .Get();
 
-        return result.Models.Select(w => new WordResponse
+        return result.Models.Select(w => new MarkedWordResponse
         {
             Id = w.Id,
             Word = w.Word,
@@ -31,16 +31,16 @@ public class WordService
         });
     }
 
-    public async Task<int> CreateWord(WordModel req)
+    public async Task<int> CreateWord(MarkedWordModel req)
     {
-        var response = await _client.From<WordModel>().Insert(req);
+        var response = await _client.From<MarkedWordModel>().Insert(req);
         return response.Models.First().Id;
     }
 
     public async Task<int?> UpdateWord(int id, bool isPinned, WordLevel level)
     {
         var response = await _client
-            .From<WordModel>()
+            .From<MarkedWordModel>()
             .Where(w => w.Id == id)
             .Set(w => w.IsPinned, isPinned)
             .Set(w => w.Level, level)
@@ -52,19 +52,19 @@ public class WordService
     public async Task DeleteWord(int id)
     {
         await _client
-            .From<WordModel>()
+            .From<MarkedWordModel>()
             .Where(w => w.Id == id)
             .Delete();
     }
 
-    public async Task<IEnumerable<WordResponse>> GetWordsForReview(string userCode)
+    public async Task<IEnumerable<MarkedWordResponse>> GetWordsForReview(string userCode)
     {
         var result = await _client
-            .From<WordModel>()
+            .From<MarkedWordModel>()
             .Where(w => w.UserCode == userCode)
             .Get();
 
-        return result.Models.Select(w => new WordResponse
+        return result.Models.Select(w => new MarkedWordResponse
         {
             Id = w.Id,
             Word = w.Word,

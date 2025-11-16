@@ -19,7 +19,12 @@ builder.Services.AddScoped<Supabase.Client>(_ =>
         }));
 
 builder.Services.AddScoped<TextService>();
-builder.Services.AddScoped<WordService>();
+builder.Services.AddScoped<MarkedWordService>();
+builder.Services.AddHttpClient<VerbConjugationService>();
+builder.Services.AddScoped<VerbConjugationService>();
+builder.Services.AddScoped<WordAnalysisService>();
+
+
 
 builder.Services.AddControllers();
 

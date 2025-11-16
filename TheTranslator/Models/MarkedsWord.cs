@@ -5,7 +5,7 @@ using TheTranslator.Enums;
 namespace TheTranslator.Models;
 
 [Table("words")]
-public class WordModel : BaseModel
+public class MarkedWordModel : BaseModel
 {
     [PrimaryKey("id")]
     public int Id { get; set; }

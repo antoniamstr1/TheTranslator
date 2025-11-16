@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using TheTranslator.Enums;
 
 
-public record WordResponse
+public record MarkedWordResponse
 {
     public int Id { get; set; }
     public int TextId { get; set; }
