@@ -54,7 +54,7 @@ public class WordAnalysisController : ControllerBase
             return Ok(new { Analysis = analysis, Conjugation = verbConjugation });
         }
 
-        return Ok(analysis);
+        return Ok(new{Analysis = analysis} );
     }
 
 }
