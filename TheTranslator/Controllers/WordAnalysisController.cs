@@ -47,7 +47,6 @@ public class WordAnalysisController : ControllerBase
 
                 // If found, remove the colon, otherwise take the last word
                 infinitive = (wordWithColon ?? words[^1]).TrimEnd(':', '.');
-                //infinitive = analysis.Definitions[0].Split(' ')[^1].Replace(":", "");
             }
 
             if (string.IsNullOrWhiteSpace(infinitive))

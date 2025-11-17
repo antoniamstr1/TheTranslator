@@ -1,6 +1,7 @@
 import "../style/WordsBox.css";
 import { useState, useEffect } from 'react';
 import axios from "axios";
+import Skeleton from '@mui/material/Skeleton';
 
 
 interface WordsProps {
@@ -43,6 +44,8 @@ export default function WordsBox({ words, language }: WordsProps) {
     const [detailsData, setDetailsData] = useState<(WordDetails | WordError | null)[]>(
         Array(words.length).fill(null)
     );
+
+    const [loading, setLoading] = useState(() => Array(words.length).fill(false));
     const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/${language}/`;
 
     const handleClick = async (i: number) => {
@@ -52,7 +55,14 @@ export default function WordsBox({ words, language }: WordsProps) {
             newArr[i] = !newArr[i];
             return newArr;
         });
+
+
         if (!detailsData[i]) {
+            setLoading(prev => {
+                const newArr = [...prev];
+                newArr[i] = true; // start loading
+                return newArr;
+            });
             try {
                 const response = await axios.get(`${API_BASE_URL}${words[i]}`);
 
@@ -84,6 +94,13 @@ export default function WordsBox({ words, language }: WordsProps) {
                 } else {
                     console.error("Non-Axios error:", error);
                 }
+            } finally {
+                // Stop loading
+                setLoading(prev => {
+                    const newArr = [...prev];
+                    newArr[i] = false;
+                    return newArr;
+                });
             }
         }
     };
@@ -117,9 +134,11 @@ export default function WordsBox({ words, language }: WordsProps) {
                                     </button>
 
                                     <div className="details-box">
-                                        {isWordDetails(detailsData[index]) ? (
+                                        {loading[index] ? (
+                                             <Skeleton variant="text" sx={{ fontSize: '1rem', width:"10rem" }} />
+                                        ) : isWordDetails(detailsData[index]) ? (
                                             <>
-                                                <div style={{ color: "gray", display:'flex', flexDirection:'row', gap: '0.5rem'}}>
+                                                <div style={{ color: "gray", display: 'flex', flexDirection: 'row', gap: '0.5rem' }}>
                                                     <div>{detailsData[index].analysis.type}</div>
                                                     <div>{detailsData[index].analysis.gramaticalNumber}</div>
                                                     <div>{detailsData[index].analysis.gender}</div>
