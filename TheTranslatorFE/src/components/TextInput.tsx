@@ -10,7 +10,7 @@ interface TextProps {
     language: string;
 }
 
-export default function TextInput({ onTextClick, setLanguage, language}: TextProps) {
+export default function TextInput({ onTextClick, setLanguage, language }: TextProps) {
     const [text, setText] = useState("");
 
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -20,9 +20,10 @@ export default function TextInput({ onTextClick, setLanguage, language}: TextPro
     const handleButtonClick = () => {
         const words = Array.from(new Set(text.split(/\s+/).filter(Boolean).map(word => word.toLowerCase())));
         onTextClick(words);
+        
     };
 
-    
+
 
     const handleLanguage = (_event: MouseEvent<HTMLElement>, newLanguage: string | null) => {
         if (newLanguage !== null) {

@@ -1,5 +1,5 @@
 import "../style/WordsBox.css";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from "axios";
 
 
@@ -35,11 +35,14 @@ interface WordDetails {
     conjugation?: Conjugation;
 }
 
+type WordError = { error: string };
+
+
 export default function WordsBox({ words, language }: WordsProps) {
 
     const [openButtons, setOpenButtons] = useState(() => Array(words.length).fill(false));
 
-    const [detailsData, setDetailsData] = useState<(WordDetails  | null)[]>(
+    const [detailsData, setDetailsData] = useState<(WordDetails | WordError | null)[]>(
         Array(words.length).fill(null)
     );
     const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/${language}/`;
@@ -52,15 +55,51 @@ export default function WordsBox({ words, language }: WordsProps) {
             return newArr;
         });
         if (!detailsData[i]) {
-            const response = await axios.get(`${API_BASE_URL}${words[i]}`);
-            /* ŠTO AKO VRATI 400 -> ne može riješiti infinitiv */
-            setDetailsData(prev => {
-                const newArr = [...prev];
-                newArr[i] = response.data;
-                return newArr;
-            });
+            try {
+                const response = await axios.get(`${API_BASE_URL}${words[i]}`);
+                /* ŠTO AKO VRATI 400 -> ne može riješiti infinitiv */
+                setDetailsData(prev => {
+                    const newArr = [...prev];
+                    newArr[i] = response.data;
+                    return newArr;
+                });
+            }
+            catch (error: unknown) {
+                if (axios.isAxiosError(error)) {
+                    if (error.response?.status === 400) {
+                        setDetailsData(prev => {
+                            const newArr = [...prev];
+                            newArr[i] = { error: "Infinitive not found" };
+                            return newArr;
+                        });
+                    } else if (error.response?.status === 404) {
+                        setDetailsData(prev => {
+                            const newArr = [...prev];
+                            newArr[i] = { error: "Word not found" };
+                            return newArr;
+                        });
+                    } else {
+                        console.error("Unhandled axios error:", error);
+                    }
+                } else {
+                    console.error("Non-Axios error:", error);
+                }
+            }
         }
     };
+
+    useEffect(() => {
+        setOpenButtons(Array(words.length).fill(false));
+        setDetailsData(Array(words.length).fill(null));
+    }, [words]);
+
+    function isWordDetails(data: WordDetails | WordError | null | undefined): data is WordDetails {
+        return (
+            data !== null &&
+            data !== undefined &&
+            "analysis" in data
+        );
+    }
 
     return (
         <div className="words-container">
@@ -78,36 +117,56 @@ export default function WordsBox({ words, language }: WordsProps) {
                                     </button>
 
                                     <div className="details-box">
-                                        <div style={{ color: "gray" }}>{detailsData[index]?.analysis.type}</div>
-                                        <div>
-                                            {detailsData[index]?.analysis.definitions?.join(", ")}
-                                        </div>
+                                        {isWordDetails(detailsData[index]) ? (
+                                            <>
+                                                <div style={{ color: "gray" }}>
+                                                    {detailsData[index].analysis.type}
+                                                </div>
+
+                                                <div>
+                                                    {detailsData[index].analysis.definitions?.join(", ")}
+                                                </div>
+
+                                                {detailsData[index].conjugation && (
+                                                    <div className="conjugations-box">
+                                                        {Object.entries(detailsData[index].conjugation).map(
+                                                            ([tenseName, persons], tIdx) => (
+                                                                <div key={tIdx} className="conjugations-container">
+                                                                    <div className="tense">{tenseName}</div>
+                                                                    <div className="verbs-container">
+                                                                        {Object.entries(persons).map(
+                                                                            ([person, form], fIdx) => (
+                                                                                <div key={fIdx} className="verb-row">
+                                                                                    <div className="verb-face">{person}</div>
+                                                                                    <div
+                                                                                        className="verb-conjugated"
+                                                                                        style={{
+                                                                                            color:
+                                                                                                form.type !== "regular"
+                                                                                                    ? "#c43838fe"
+                                                                                                    : "black",
+                                                                                        }}
+                                                                                    >
+                                                                                        {form.value}
+                                                                                    </div>
+                                                                                </div>
+                                                                            )
+                                                                        )}
+                                                                    </div>
+                                                                </div>
+                                                            )
+                                                        )}
+                                                    </div>
+                                                )}
+                                            </>
+                                        ) : detailsData[index] ? (
+                                            <div style={{ color: "gray" }}>{detailsData[index].error}</div>
+                                        ) : null}
                                     </div>
                                 </div>
 
 
-                                {detailsData[index]?.conjugation && (
-                                    <div className="conjugations-box">
-                                        {Object.entries(detailsData[index].conjugation).map(([tenseName, persons], tIdx) => (
-                                            <div key={tIdx} className="conjugations-container">
-                                                <div className="tense">{tenseName}</div>
-                                                <div className="verbs-container">
-                                                    {Object.entries(persons).map(([person, form], fIdx) => (
-                                                        <div key={fIdx} className="verb-row">
-                                                            <div className="verb-face">{person}</div>
-                                                            <div
-                                                                className="verb-conjugated"
-                                                                style={{ color: form.type !== "regular" ? "#c43838fe" : "black" }}
-                                                            >
-                                                                {form.value}
-                                                            </div>
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                )}
+
 
 
                             </div>
