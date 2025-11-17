@@ -33,7 +33,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp", policy =>
     {
-        policy.WithOrigins("http://localhost:5173") // your React dev URL
+        policy.WithOrigins("http://localhost:5173","https://thetranslatorapp.onrender.com") // your React dev URL
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
