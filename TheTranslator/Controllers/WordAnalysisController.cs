@@ -31,20 +31,25 @@ public class WordAnalysisController : ControllerBase
         if (analysis.Type == "verb")
         {
             var infinitive = "";
-            //ako je mangiar ili mangio: form je prazan i uzimam glagog kao zadnju riječ iz definicije
-            if (analysis.Forms.Tags.Count == 0)
-            {
-                infinitive = analysis.Definitions[0].Split(' ')[^1];
-            }
             // ako je infinitiv mangiare, u forms je tags ["canonical"] i uzimam word
-            else if (analysis.Forms.Tags[0] == "canonical")
+            if (analysis.Forms.Tags != null && analysis.Forms.Tags.Count > 0 && analysis.Forms.Tags[0] == "canonical")
             {
                 var infinitive_non_normalized = analysis.Forms.Word;
                 infinitive = infinitive_non_normalized.Normalize(NormalizationForm.FormD);
                 infinitive = new string(infinitive.Where(c => CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark).ToArray());
             }
+            //ako je mangiar ili mangio: form je prazan i uzimam glagog kao zadnju riječ iz definicije
+            else
+            {
+                // može biti zadnja riječ i može bitti riječ koja završava s :
+                var words = analysis.Definitions[0].Split(' ');
+                var wordWithColon = words.FirstOrDefault(w => w.EndsWith(":"));
 
-            // u canonical form su dijaklikticki znakovi koje treba maknuti 
+                // If found, remove the colon, otherwise take the last word
+                infinitive = (wordWithColon ?? words[^1]).TrimEnd(':', '.');
+                //infinitive = analysis.Definitions[0].Split(' ')[^1].Replace(":", "");
+            }
+
             if (string.IsNullOrWhiteSpace(infinitive))
                 return BadRequest("Cannot determine the infinitive form of the verb.");
 
@@ -55,9 +60,9 @@ public class WordAnalysisController : ControllerBase
             return Ok(new { Analysis = analysis, Conjugation = verbConjugation });
         }
 
-        return Ok(new{Analysis = analysis} );
+        return Ok(new { Analysis = analysis });
     }
 
-    
+
 
 }

@@ -24,7 +24,7 @@ public class VerbConjugationService
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error fetching conjugation: {ex.Message}");
+            Console.WriteLine($"Error fetching conjugation: {verb}");
             return new VerbConjugations();
         }
     }

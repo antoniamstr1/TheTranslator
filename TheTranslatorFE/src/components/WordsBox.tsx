@@ -23,10 +23,6 @@ interface Conjugation {
 
 interface Analysis {
     type: string;
-    forms: {
-        word: string;
-        tags: string[];
-    };
     definitions: string[];
     gramaticalNumber?: string;
     gender?: string;
