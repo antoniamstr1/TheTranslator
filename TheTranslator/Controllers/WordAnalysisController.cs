@@ -21,6 +21,7 @@ public class WordAnalysisController : ControllerBase
     //italian-it
     //spanish-es
     [HttpGet("{language}/{word}")]
+    [HttpHead("{language}/{word}")]
     public async Task<IActionResult> GetAnalysis(string language, string word)
     {
         var analysis = await _WAService.GetWordAnalysis(language, word);
@@ -56,5 +57,7 @@ public class WordAnalysisController : ControllerBase
 
         return Ok(new{Analysis = analysis} );
     }
+
+    
 
 }

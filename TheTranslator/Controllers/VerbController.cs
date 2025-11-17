@@ -18,6 +18,7 @@ public class VerbController : ControllerBase
     //italian-ita
     //spanish-spa
     [HttpGet("{language}/{verb}")]
+    [HttpHead("{language}/{verb}")]
     public async Task<IActionResult> GetConjugation(string language, string verb)
     {
         var conjugations = await _service.GetConjugationByVerb(language, verb);
