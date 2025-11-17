@@ -26,6 +26,7 @@ export default function TextInput({ onTextClick, setLanguage, language }: TextPr
                 .replace(".", "")
                 .replace("?", "")
                 .replace("!", "")
+                .replace(/"/g, "")
             )));
         onTextClick(words);
 

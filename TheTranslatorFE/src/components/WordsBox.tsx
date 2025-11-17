@@ -28,6 +28,8 @@ interface Analysis {
         tags: string[];
     };
     definitions: string[];
+    gramaticalNumber?: string;
+    gender?: string;
 }
 
 interface WordDetails {
@@ -57,7 +59,7 @@ export default function WordsBox({ words, language }: WordsProps) {
         if (!detailsData[i]) {
             try {
                 const response = await axios.get(`${API_BASE_URL}${words[i]}`);
-                
+
                 setDetailsData(prev => {
                     const newArr = [...prev];
                     newArr[i] = response.data;
@@ -121,8 +123,10 @@ export default function WordsBox({ words, language }: WordsProps) {
                                     <div className="details-box">
                                         {isWordDetails(detailsData[index]) ? (
                                             <>
-                                                <div style={{ color: "gray" }}>
-                                                    {detailsData[index].analysis.type}
+                                                <div style={{ color: "gray", display:'flex', flexDirection:'row', gap: '0.5rem'}}>
+                                                    <div>{detailsData[index].analysis.type}</div>
+                                                    <div>{detailsData[index].analysis.gramaticalNumber}</div>
+                                                    <div>{detailsData[index].analysis.gender}</div>
                                                 </div>
 
                                                 <div>

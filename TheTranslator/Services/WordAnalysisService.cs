@@ -35,6 +35,7 @@ public class WordAnalysisService
 
             // 1. field
             var partOfSpeech = entries[0].GetProperty("partOfSpeech").GetString() ?? string.Empty;
+
             // 2. field
             var formsList = entries[0].GetProperty("forms");
             WordForm forms = new WordForm(); // defaultno stanje
@@ -49,7 +50,7 @@ public class WordAnalysisService
                                 .ToList()
                 };
             }
-            // 3. field
+            // 5. field
             var definitions = entries[0]
                       .GetProperty("senses")
                       .EnumerateArray()
@@ -63,7 +64,42 @@ public class WordAnalysisService
                 Forms = forms,
                 Definitions = definitions
             };
+
+            if (partOfSpeech == "noun")
+            {
+                var grammaticalNumber = "";
+                var gender = "";
+
+                // 3. field
+                var forms_data = entries[0].GetProperty("forms");
+                if (forms_data.GetArrayLength() > 0)
+                {
+                    var tags = forms_data[0].GetProperty("tags");
+                    if (tags.GetArrayLength() > 0)
+                    {
+                        grammaticalNumber = tags[0].GetString() ?? string.Empty;
+                    }
+                }
+
+                // 4. field
+                var senses = entries[0].GetProperty("senses");
+                if (senses.GetArrayLength() > 0)
+                {
+                    var tags = senses[0].GetProperty("tags");
+                    if (tags.GetArrayLength() > 0)
+                    {
+                        gender = tags[0].GetString() ?? string.Empty;
+                    }
+                }
+                response.GramaticalNumber = grammaticalNumber;
+                if (gender == "masculine" || gender == "feminine")
+                {
+                    response.Gender = gender;
+                }
+                
+            }
             return response;
+
         }
         catch (Exception ex)
         {
