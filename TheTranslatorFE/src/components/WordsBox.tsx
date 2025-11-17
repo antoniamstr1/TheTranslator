@@ -57,7 +57,7 @@ export default function WordsBox({ words, language }: WordsProps) {
         if (!detailsData[i]) {
             try {
                 const response = await axios.get(`${API_BASE_URL}${words[i]}`);
-                /* ŠTO AKO VRATI 400 -> ne može riješiti infinitiv */
+                
                 setDetailsData(prev => {
                     const newArr = [...prev];
                     newArr[i] = response.data;
@@ -66,12 +66,14 @@ export default function WordsBox({ words, language }: WordsProps) {
             }
             catch (error: unknown) {
                 if (axios.isAxiosError(error)) {
+                    /* ŠTO AKO VRATI 400 -> ne može riješiti infinitiv */
                     if (error.response?.status === 400) {
                         setDetailsData(prev => {
                             const newArr = [...prev];
                             newArr[i] = { error: "Infinitive not found" };
                             return newArr;
                         });
+                        /* 404 znači da nije riječ u ciljanom jeziku */
                     } else if (error.response?.status === 404) {
                         setDetailsData(prev => {
                             const newArr = [...prev];

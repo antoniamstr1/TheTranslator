@@ -18,9 +18,17 @@ export default function TextInput({ onTextClick, setLanguage, language }: TextPr
     };
 
     const handleButtonClick = () => {
-        const words = Array.from(new Set(text.split(/\s+/).filter(Boolean).map(word => word.toLowerCase())));
+        const words = Array.from(new Set(text
+            .split(/[’\s]+/)
+            .filter(Boolean)
+            .map(word => word.toLowerCase()
+                .replace(",", "")
+                .replace(".", "")
+                .replace("?", "")
+                .replace("!", "")
+            )));
         onTextClick(words);
-        
+
     };
 
 
