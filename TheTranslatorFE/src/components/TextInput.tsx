@@ -3,7 +3,6 @@ import { useState } from 'react';
 import type { MouseEvent } from "react";
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import Button from '@mui/material/ToggleButton';
 
 interface TextProps {
     onTextClick: (words: string[]) => void;
@@ -31,7 +30,6 @@ export default function TextInput({ onTextClick, setLanguage, language}: TextPro
         }
     };
 
-
     return (
         <div className="textInput" >
             <ToggleButtonGroup
@@ -50,14 +48,14 @@ export default function TextInput({ onTextClick, setLanguage, language}: TextPro
             </ToggleButtonGroup>
             <textarea
                 className="translator-textarea"
-                placeholder="Type your text here..."
+                placeholder="What do you need help with?"
                 value={text}
                 onChange={handleChange}
             >
             </textarea>
-            <Button
+            <button
                 className="translate-button"
-                onClick={handleButtonClick}>Translate</Button>
+                onClick={handleButtonClick}>TRANSLATE</button>
         </div>
 
     )

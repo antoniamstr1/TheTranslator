@@ -7,11 +7,39 @@ interface WordsProps {
     words: string[];
     language: string;
 }
+
+interface ConjugationForm {
+    type: string;
+    value: string;
+}
+
+interface ConjugationPersons {
+    [person: string]: ConjugationForm;
+}
+
+interface Conjugation {
+    [tense: string]: ConjugationPersons;
+}
+
+interface Analysis {
+    type: string;
+    forms: {
+        word: string;
+        tags: string[];
+    };
+    definitions: string[];
+}
+
+interface WordDetails {
+    analysis: Analysis;
+    conjugation?: Conjugation;
+}
+
 export default function WordsBox({ words, language }: WordsProps) {
 
     const [openButtons, setOpenButtons] = useState(() => Array(words.length).fill(false));
 
-    const [detailsData, setDetailsData] = useState<(any | null)[]>(
+    const [detailsData, setDetailsData] = useState<(WordDetails  | null)[]>(
         Array(words.length).fill(null)
     );
     const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/${language}/`;

@@ -31,4 +31,15 @@
 
 .translate-button {
   align-self: flex-end;
+  border: none;
+  padding: 0.7rem;
+  color: #e33333;
+  font-weight: bold;
+  border-radius: 4px;;
+  background-color: #e333330b;
+  cursor: pointer;
+}
+
+.translate-button:hover{
+  background-color: #e333331f;
 }

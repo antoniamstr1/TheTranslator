@@ -4,7 +4,7 @@ import "../style/Navbar.css";
 export default function Navbar() {
   return (
     <div className="navbar">
-      <p className="navbar-element">TheTranslator</p>
+      <img className="navbar-element" src="title.png"></img>
     </div>
   );
 }
