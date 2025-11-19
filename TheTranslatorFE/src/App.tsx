@@ -22,7 +22,7 @@ function App() {
     return code;
   }
 
-  const [userCode, setUserCode] = useState<string>();
+  const [userCode, setUserCode] = useState<string>("");
 
   useEffect(() => {
     async function init() {
