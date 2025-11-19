@@ -131,12 +131,31 @@
     border-color: #d8d2d2; 
     outline: none;
 }
-.title{
+.title-div{
     color:#e75757;
     font-size: larger;
     padding: 1ch;
     border-radius: 0.5ch;
     background-color: #e7575715;
+    display: flex;
+    gap: 1ch;
+    align-items: center;
+}
+
+.title-div:hover .title-icons {
+  display: block;
+
+}
+.title-div:hover .title {
+  margin-right: 1ch;
+}
+.title-icons{
+  display: none;
+  height: 1rem;
+  transition: transform 0.2s ease;
+}
+.title-icons:hover{
+  transform: scale(1.2);
 }
 
 .title-carousel{
@@ -153,3 +172,4 @@
 .item {
   scroll-snap-align: start;
 }
+

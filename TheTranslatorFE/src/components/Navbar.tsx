@@ -171,9 +171,11 @@ export default function Navbar({ hasText, languageFrom, text, setText, userCode,
             onBlur={() => setIsSaveInput(false)}
           />
         ) : textTitle ? (
-          <span
-            className="title"
-          >{textTitle}</span>
+          <div className="title-div">
+          <span className="title">{textTitle}</span>
+          <img className="title-icons" src="plus.png"></img>
+          <img className="title-icons" src="delete.png"></img>
+          </div>
         ) : (
           <img
             className="save-icon"
