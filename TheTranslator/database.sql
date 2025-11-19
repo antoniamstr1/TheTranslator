@@ -6,7 +6,7 @@ CREATE TABLE users (
 
 CREATE TABLE texts (
     id SERIAL PRIMARY KEY,
-    user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    user_code INTEGER NOT NULL REFERENCES users(code) ON DELETE CASCADE,
     content TEXT NOT NULL,
     title TEXT NOT NULL,
     language_from TEXT NOT NULL,

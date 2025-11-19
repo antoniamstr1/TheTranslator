@@ -1,25 +1,32 @@
 import "../style/TextInput.css";
-import { useState } from 'react';
-import type { MouseEvent } from "react";
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+
 
 interface TextProps {
     onTextClick: (words: string[]) => void;
     setLanguage: (language: string) => void;
     language: string;
+    text: string;
+    setText: (value: string) => void;
+    setHasText: (value: boolean) => void;
 }
 
-export default function TextInput({ onTextClick, setLanguage, language }: TextProps) {
-    const [text, setText] = useState("");
 
-    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+export default function TextInput({ onTextClick, setLanguage, language, text, setText, setHasText}: TextProps) {
+
+
+
+
+
+    const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setText(e.target.value);
+        setHasText(e.target.value.trim().length > 0);
     };
 
     const handleButtonClick = () => {
         const words = Array.from(new Set(text
-            .split(/[’\s]+/)
+            .split(/[’'\s]+/)
             .filter(Boolean)
             .map(word => word.toLowerCase()
                 .replace(",", "")
@@ -30,21 +37,19 @@ export default function TextInput({ onTextClick, setLanguage, language }: TextPr
             )));
         onTextClick(words);
 
+
     };
 
-
-
-    const handleLanguage = (_event: MouseEvent<HTMLElement>, newLanguage: string | null) => {
-        if (newLanguage !== null) {
-            setLanguage(newLanguage);
-        }
-    };
 
     return (
         <div className="textInput" >
             <ToggleButtonGroup
                 exclusive
-                onChange={handleLanguage}
+                onChange={(_event, newLanguage) => {
+                    if (newLanguage !== null) {
+                        setLanguage(newLanguage);
+                    }
+                }}
                 aria-label="text alignment"
                 value={language}
             >
@@ -60,7 +65,7 @@ export default function TextInput({ onTextClick, setLanguage, language }: TextPr
                 className="translator-textarea"
                 placeholder="What do you need help with?"
                 value={text}
-                onChange={handleChange}
+                onChange={handleTextChange}
             >
             </textarea>
             <button

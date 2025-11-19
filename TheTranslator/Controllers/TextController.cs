@@ -15,13 +15,22 @@ public class TextController : ControllerBase
         _service = service;
     }
 
-    [HttpGet("{userId}")]
-    public async Task<IActionResult> GetTexts(int userId)
+    [HttpGet("{code}")]
+    public async Task<IActionResult> GetTexts(string code)
     {
-        var texts = await _service.GetTextsForUser(userId);
+        var texts = await _service.GetTextsForUser(code);
         if (!texts.Any()) return NotFound();
         return Ok(texts);
     }
+
+    [HttpGet("by-id/{id}")]
+    public async Task<IActionResult> GetTextDetailsFromId(int id)
+    {
+        var texts = await _service.GetTextDetailsFromId(id);
+        /* if (!texts.Any()) return NotFound(); -> ne želim da vraća 404 ako nema ništa, nego praznu listu*/
+        return Ok(texts);
+    }
+
 
     [HttpPost]
     public async Task<IActionResult> CreateText([FromBody] TextModel req)

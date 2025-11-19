@@ -1,11 +1,155 @@
-.navbar{
-    width: 100%;
-    box-sizing: border-box;
-    /* border-bottom: solid 1px rgb(228, 70, 93); */
+.navbar {
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  /* glowing bottom */
+  /* border: none;
+  outline: none;
+  background: transparent;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgb(228, 70, 93);; */
 }
-.navbar-element{
-    margin: 0.7rem;
-    margin-left:2rem;
-    /* font-size: x-large; */
-    height:3rem;
+.navbar-element {
+  margin: 0.7rem;
+  margin-left: 2rem;
+  height: 3rem;
+}
+
+.user-logo {
+  width: 2rem;
+  height: 2rem;
+  background-color: #e75757;
+  border-radius: 50%;
+  margin-right: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  justify-content: space-evenly;
+}
+
+.copy-div {
+  display: none;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #e63636;
+  padding: 0.5rem;
+  border-radius: 2rem;
+}
+/* expands on hover */
+.user-logo:hover {
+  width: fit-content;
+  padding-left: 1rem;
+  padding-right: 1rem;
+
+  border-radius: 2rem;
+}
+
+.user-text {
+  display: none;
+  transition: opacity 0.3s ease;
+  font-weight: 500;
+}
+.user-icon {
+  height: 1.5rem;
+  width: auto;
+  display: none;
+  transition: opacity 0.3s ease;
+}
+
+.user-logo:hover .user-text,
+.user-logo:hover .user-icon {
+  display: block;
+}
+
+.user-logo:hover .copy-div {
+  display: flex;
+}
+
+.save-icon {
+  height: 1.5rem;
+  width: auto;
+}
+.left-side-navbar {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  align-items: center;
+  cursor: pointer;
+  overflow-x: auto;
+}
+.left-side-navbar::-webkit-scrollbar {
+  display: none;
+}
+
+.navbar-texts {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.title-carousel {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  color: rgb(220, 155, 155);
+}
+.workspace-input {
+  /*  width: 5rem; */
+  width: 5rem;
+  padding: 0.4rem;
+  border: 1px solid #e63636;
+  border-radius: 2rem;
+  font-family: "Ariel";
+  display: none;
+  box-sizing: border-box;
+
+}
+
+.workspace-input:focus {
+  outline: none;
+  border-radius: 2rem;
+  padding: 0.5rem;
+}
+
+.user-logo:hover .workspace-input {
+  display: block;
+}
+.title-input{
+    width: 10ch;
+    color:#e75757;
+    font-size: larger;
+    padding: 1ch;
+    border-radius: 0.5ch;
+    background-color: #e7575715;
+    border-color: #e75757;
+}
+.title-input:focus {
+    border-color: #d8d2d2; 
+    outline: none;
+}
+.title{
+    color:#e75757;
+    font-size: larger;
+    padding: 1ch;
+    border-radius: 0.5ch;
+    background-color: #e7575715;
+}
+
+.title-carousel{
+  min-width: 0;
+  max-width: 20vw; 
+  box-sizing: border-box;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+}
+.title-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.item {
+  scroll-snap-align: start;
 }

@@ -46,7 +46,7 @@ export default function WordsBox({ words, language }: WordsProps) {
     );
 
     const [loading, setLoading] = useState(() => Array(words.length).fill(false));
-    const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/${language}/`;
+    const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/word-analysis/${language}/`;
 
     const handleClick = async (i: number) => {
 

@@ -24,7 +24,7 @@ builder.Services.AddScoped<MarkedWordService>();
 builder.Services.AddHttpClient<VerbConjugationService>();
 builder.Services.AddScoped<VerbConjugationService>();
 builder.Services.AddScoped<WordAnalysisService>();
-
+builder.Services.AddScoped<UserService>();
 
 
 builder.Services.AddControllers();
