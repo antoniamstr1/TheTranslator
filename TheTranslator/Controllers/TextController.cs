@@ -19,7 +19,7 @@ public class TextController : ControllerBase
     public async Task<IActionResult> GetTexts(string code)
     {
         var texts = await _service.GetTextsForUser(code);
-        if (!texts.Any()) return NotFound();
+        /* if (!texts.Any()) return NotFound(); */
         return Ok(texts);
     }
 
