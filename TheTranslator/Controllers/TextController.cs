@@ -23,12 +23,12 @@ public class TextController : ControllerBase
         return Ok(texts);
     }
 
-    [HttpGet("by-id/{id}")]
-    public async Task<IActionResult> GetTextDetailsFromId(int id)
+    [HttpGet("check/{id}")]
+    public async Task<IActionResult> CheckIfTextExists(int id)
     {
-        var texts = await _service.GetTextDetailsFromId(id);
+        var itExists = await _service.CheckIfTextExistsById(id);
         /* if (!texts.Any()) return NotFound(); -> ne želim da vraća 404 ako nema ništa, nego praznu listu*/
-        return Ok(texts);
+        return Ok(itExists);
     }
 
 
@@ -38,6 +38,18 @@ public class TextController : ControllerBase
         var id = await _service.CreateText(req);
         return Ok(id);
     }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateText(int id, [FromBody] UpdateTextRequest req)
+    {
+        var updated = await _service.UpdateText(id, req);
+
+        if (!updated)
+            return NotFound(); // text with that id doesn't exist
+
+        return NoContent(); // success, no response body needed
+    }
+
 
     [HttpDelete("{textId}")]
     public async Task<IActionResult> DeleteText(int textId)

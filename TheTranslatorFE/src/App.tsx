@@ -37,12 +37,18 @@ function App() {
   const [hasText, setHasText] = useState(false);
   const [text, setText] = useState("");
 
+    const [textId, setTextId] = useState<number | null>(() => {
+    const stored = localStorage.getItem("text-id");
+    return stored ? Number(stored) : null;
+  });
+
+
 
   return (
     <div className="translator-root">
-      <Navbar hasText={hasText} languageFrom={language} text={text} setText={setText} userCode={userCode} setUserCode={setUserCode} setLanguage={setLanguage} setWords={setWords}/>
+      <Navbar hasText={hasText} languageFrom={language} text={text} setText={setText} userCode={userCode} setUserCode={setUserCode} setLanguage={setLanguage} setWords={setWords} textId={textId} setTextId={setTextId} />
       <div className="big-container">
-        <TextInput onTextClick={setWords} setLanguage={setLanguage} language={language} setHasText={setHasText} text={text} setText={setText} />
+        <TextInput onTextClick={setWords} setLanguage={setLanguage} language={language} setHasText={setHasText} text={text} setText={setText} textId={textId} />
         <WordsBox words={words} language={language} />
       </div>
 

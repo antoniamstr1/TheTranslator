@@ -11,6 +11,9 @@ interface NavbarProps {
   setText: (value: string) => void;
   setLanguage: (value: string) => void;
   setWords: (value: string[]) => void;
+  textId: number | null;
+  setTextId: (value: number | null) => void;
+
 
 }
 
@@ -24,7 +27,7 @@ interface Text {
 }
 
 
-export default function Navbar({ hasText, languageFrom, text, setText, userCode, setUserCode, setLanguage, setWords }: NavbarProps) {
+export default function Navbar({ hasText, languageFrom, text, setText, userCode, setUserCode, setLanguage, setWords, textId, setTextId }: NavbarProps) {
 
   const storedCode = localStorage.getItem("user_code") || "";
 
@@ -33,10 +36,27 @@ export default function Navbar({ hasText, languageFrom, text, setText, userCode,
   const [isSaveInput, setIsSaveInput] = useState(false);
   const [textTitle, setTextTitle] = useState<string>("");
   const [titles, setTitles] = useState<Text[]>([]);
-  const [textId, setTextId] = useState<number | null>(() => {
-    const stored = localStorage.getItem("text-id");
-    return stored ? Number(stored) : null;
-  });
+
+  // kada se promijeni text-id ili pri loadanju check da text-id postoji
+  useEffect(() => {
+    if (textId === null) return;
+
+    const validate = async () => {
+      try {
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_BASE_URL}/texts/check/${textId}`
+        );
+        if (!res.data) {
+          localStorage.removeItem("text-id");
+        }
+
+      } catch (error) {
+        console.error("Failed to check code", error);
+      }
+    };
+
+    validate();
+  }, [textId]);
 
   useEffect(() => {
     if (!userCode) return;
@@ -172,9 +192,9 @@ export default function Navbar({ hasText, languageFrom, text, setText, userCode,
           />
         ) : textTitle ? (
           <div className="title-div">
-          <span className="title">{textTitle}</span>
-          <img className="title-icons" src="plus.png"></img>
-          <img className="title-icons" src="delete.png"></img>
+            <span className="title">{textTitle}</span>
+            <img className="title-icons" src="plus.png"></img>
+            <img className="title-icons" src="delete.png"></img>
           </div>
         ) : (
           <img

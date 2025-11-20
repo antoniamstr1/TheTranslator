@@ -32,21 +32,14 @@ public class TextService
         });
     }
 
-    public async Task<IEnumerable<object>> GetTextDetailsFromId(int id)
+    public async Task<Boolean> CheckIfTextExistsById(int id)
     {
-        var result = await _client
-            .From<TextModel>()
-            .Where(t => t.Id == id)
+        var response = await _client.From<TextModel>()
+            .Where(x => x.Id == id)
             .Get();
 
-        return result.Models.Select(t => new
-        {
-            t.Id,
-            t.Content,
-            t.LanguageFrom,
-            t.LanguageTo,
-            t.Title
-        });
+        return response.Models.Any();
+
     }
 
 
@@ -62,5 +55,19 @@ public class TextService
             .From<TextModel>()
             .Where(t => t.Id == textId)
             .Delete();
+    }
+
+
+    public async Task<bool> UpdateText(int id, UpdateTextRequest req)
+    {
+        var response = await _client
+        .From<TextModel>()
+        .Where(t => t.Id == id)
+        .Set(t => t.Content, req.Content)
+        .Set(t => t.LanguageFrom, req.LanguageFrom)
+        .Update();
+
+
+        return response.Models.Any();
     }
 }
