@@ -136,12 +136,12 @@ export default function Navbar({ hasText, languageFrom, text, setText, userCode,
         languageTo: "eng",
         title: textTitle,
       });
-      localStorage.setItem("text-id", res.data);
+      localStorage.setItem("text-id", res.data.toString());
 
-      await axios.get<Text[]>(
+      const list = await axios.get<Text[]>(
         `${import.meta.env.VITE_API_BASE_URL}/texts/${userCode}`
       );
-      setTitles(res.data);
+      setTitles(list.data);
     } catch (err) {
       console.error("Save failed:", err);
       throw err;
